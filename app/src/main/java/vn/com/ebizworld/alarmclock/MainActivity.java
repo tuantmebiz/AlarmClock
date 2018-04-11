@@ -29,6 +29,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
 
         Intent myIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
-
         pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -107,6 +108,14 @@ public class MainActivity extends AppCompatActivity {
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
          ringtone = RingtoneManager.getRingtone(getApplicationContext(), uri);
         ringtone.play();
+        unlockScreen();
+    }
+
+    private void unlockScreen() {
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
     }
 
     // xin quyen
